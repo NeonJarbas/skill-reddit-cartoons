@@ -15,7 +15,9 @@ class RedditCartoonsSkill(OVOSCommonPlaybackSkill):
         self.supported_media = [MediaType.CARTOON,
                                 MediaType.GENERIC,
                                 MediaType.VIDEO]
+        self.reddit = RedditCartoons()
 
+    def initialize(self):
         # get your own keys! these might stop working any time
         if "praw_client" not in self.settings:
             self.settings["praw_client"] = "Cij47m8Dg6dSIA"
@@ -27,10 +29,7 @@ class RedditCartoonsSkill(OVOSCommonPlaybackSkill):
             self.reddit = RedditCartoons(
                 client=self.settings["praw_client"],
                 secret=self.settings["praw_secret"])
-        else:
-            self.reddit = RedditCartoons()
 
-    def initialize(self):
         self.schedule_event(self._scrap_reddit, 1)
 
     def _scrap_reddit(self, message=None):
